@@ -1,17 +1,14 @@
-function exec() {
+
+
+async function exec() {
     const frases = await getFrases();
     console.log("frases",frases);
+    var frases_banco = json.parse(frases);
+    console.log(frases_banco);
+    return frases_banco;
 }
 exec();
 
-
-// (async () => {
-// const dao = require('./JogadorDao')
-// console.log("foi")
-// console.log('pesquisa no DB');
-// const frases = await dao.getFrases();
-// console.log(frases);
-// })();
 
 //para embararalhar as frases dentro do array
 function shuffle(o) {
@@ -29,7 +26,6 @@ minhasFrases = [
 ]
 //chamando a função
 shuffle(minhasFrases)
-console.log(minhasFrases);
 lead = minhasFrases[0];
 $(".lead").text(lead);
 var botaoSelect = $("#select-dificult");
@@ -57,6 +53,7 @@ dificuldade.on('click change', function(){
     $(".botao-principal").css("transform", "scale(0.9)");
     $(".botao-principal").css("outline", "0");
     $(".mensagem-dificuldade").css("display", "flex");
+    $(".mensagem-dificuldade").css("flex", "flex");
     $(".mensagem-dificuldade").css("justify-content", "center")
     $(".mensagem-dificuldade").css("align-items", "center")
     $(".mensagem-dificuldade").css("margin-top", "0")

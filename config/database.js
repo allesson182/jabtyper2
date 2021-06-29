@@ -5,7 +5,7 @@ var conexao = function(){
 		host : 'localhost',
 		user : 'root',
 		password : '12345',
-		database : 'jabtyperv2',
+		database : 'jabtyper2',
         charset: "utf8_general_ci"
 	});
 }

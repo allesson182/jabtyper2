@@ -5,7 +5,7 @@ async function connect(){
     const connection = await mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        database: 'jabtyperv2',
+        database: 'jabtyper2',
         password: '12345'
 
     })
@@ -19,9 +19,9 @@ async function getFrases(){
     return  rows;
 
 }
-async function getFrasesPorDificuldade(frases){
+async function getFrasesPorDificuldade(dificuldade){
     const conn = await connect();
-    const [rows] = await conn.query('select * from frases f WHERE f.dificuldade = ? ;', [frases.dificuldade] );
+    const [rows] = await conn.query('select * from frases f WHERE f.dificuldade = ? ;', [dificuldade] );
     return  rows;
 
 }

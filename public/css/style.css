@@ -50,9 +50,11 @@ h1{
 }
 .mensagem-dificuldade{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-top: 1rem;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 .botao-principal{
     font-family: 'Poppins', sans-serif;
