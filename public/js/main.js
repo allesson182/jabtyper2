@@ -105,6 +105,9 @@ function iniciaModal(modal){
 function removerModal(){
     modal.removeClass('mostrar');
 }
+// elemento da caixa de texto
+var campo = $("#campo-digitacao");
+
 botaoSelect.on('click', () => iniciaModal(modal));
 modal.on('click', removerModal)
 dificuldade.on('click change', function(){
@@ -112,6 +115,8 @@ dificuldade.on('click change', function(){
     // location.reload();
     console.log(dificuldadeValue);
     seleciona_dificuldade(dificuldade_atualizada);
+    campo.attr("disabled", false);
+    campo.addClass("active")
     
     
     // $(".lead").css("display", "block");
@@ -139,20 +144,21 @@ var tempoJogo  = $("#tempo");
 
 
 //monitora o clique do campo de digitação
-var campo = $("#campo-digitacao");
+
 campo.on("input", function () {
-    //pega o que tem dentro do campo de texto
-    var frase = campo.val();
-    //conta a quantidade de caracteres da frase digitada
-    var nCaracteresDigitados = frase.length;
-    //mostra a quantidade na tela
-    $("#caracteres-digitados").text(nCaracteresDigitados);
+    comparar_palavras()
+    // //pega o que tem dentro do campo de texto
+    // var frase = campo.val();
+    // //conta a quantidade de caracteres da frase digitada
+    // var nCaracteresDigitados = frase.length;
+    // //mostra a quantidade na tela
+    // $("#caracteres-digitados").text(nCaracteresDigitados);
     
-    //quebra a frase em palavras e conta as palavras
-    var nPalavrasDigitadas = frase.split(" ").length;
-    //exibe a quantidade de palavras na tela
-    $("#palavras-digitadas").text(nPalavrasDigitadas);
-    //imprimir em cima também
+    // //quebra a frase em palavras e conta as palavras
+    // var nPalavrasDigitadas = frase.split(" ").length;
+    // //exibe a quantidade de palavras na tela
+    // $("#palavras-digitadas").text(nPalavrasDigitadas);
+    // //imprimir em cima também
 });
 
 //cronometrando o tempo
@@ -162,6 +168,7 @@ rodar();
 function rodar(){
     campo.on("focus", function(){
         campo.addClass("active")
+        //campo.attr("disabled", false);
         if(running == true){
             return;
         }
@@ -177,8 +184,10 @@ function rodar(){
                 //limpando o console
                 clearInterval(cronometro);
                 nome = $(".form-control").val()
+                let palavras_sistema = $("#lead").text().split(" ");
                 palavrasDigitadas = $("#palavras-digitadas").text()
-                pontuacao = palavrasDigitadas/tempoJogo.val() * 60
+                pontuacao = `${palavrasDigitadas}/${palavras_sistema.length}`; 
+                //palavrasDigitadas/tempoJogo.val() * 60
                 $(".table").append('<tr><td>'+nome+'</td><td>'+pontuacao+'</td></tr>');
                 $(".progress-bar").css("width", "100%");
             } else{
@@ -196,7 +205,19 @@ function rodar(){
         }, 1000);
     });
 }
+function comparar_palavras(){
+    let palavras_usuario = campo.val();
+    $("#caracteres-digitados").text(palavras_usuario.length);
+    let palavras_sistema = $("#lead").text().split(" ");
+    let palavras_resposta_usuario = palavras_usuario.split(" ");
 
+    const palavras_certas = palavras_sistema.reduce((num, palavras_sistema, index) => {
+        return num += palavras_resposta_usuario[index] == palavras_sistema ? 1 : 0;
+    }, 0);
+
+    $("#palavras-digitadas").text(palavras_certas);
+
+}
 //botao reset
 $(".btn-restart").on("click", function(){
     //desbloquear a caixa de texto
@@ -209,8 +230,9 @@ $(".btn-restart").on("click", function(){
     $("#tempo").text(tempoJogo.val());
     
     //dificuldade.val() = ""
-    
+   
 });
+
     
     // async function exec() {
     //     const frases = await getFrases();
@@ -236,3 +258,5 @@ $(".btn-restart").on("click", function(){
     //     "Só existem dois tipos de pessoas no mundo: as que entendem código binário e as que não entendem."
     // ]
     // chamando a função
+pontuacao = `${palavrasDigitadas}/${palavras_sistema.length}`; 
+module.exports(pontuacao);    

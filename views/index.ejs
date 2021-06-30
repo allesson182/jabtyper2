@@ -79,7 +79,7 @@
   
       <br>
       <div class="texto">
-        <textarea id="campo-digitacao" cols="70" rows="4"></textarea>
+        <textarea id="campo-digitacao" cols="70" rows="4" disabled></textarea>
       </div>
       <div class="botao">
         <button type="button" class="btn btn-restart"> </button>
@@ -92,11 +92,18 @@
   
           </div>
           <div class="col-sm palavras-digitadas">
-            <h6> <span id="palavras-digitadas">0</span> Palavras digitadas</h6>
+            <h6> <span id="palavras-digitadas">0</span> Palavras digitadas corretamente</h6>
           </div>
   
         </div>
       </div>
+      <form action="/inserir" method="post">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
+        <input type="submit" value="Submit">
+      </form> 
       <br>
       <h4>Placar</h4>
       <table class="table">

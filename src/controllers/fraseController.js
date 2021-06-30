@@ -1,4 +1,3 @@
-// const { dificuldadeValue } = require("../../public/js/main");
 
 module.exports = (app) => {
     const fraseController = {
@@ -14,6 +13,24 @@ module.exports = (app) => {
                     } else {
                         connection.end();
                         return res.status(200).json(result);
+                    }
+                })
+            } catch (error) {
+                console.error(error);
+                res.status(500).json("Internal Server Error");
+            }
+        },
+        inserrir_jogador: (req, res) => {
+            try {
+                const connection = app.config.database();
+                const daoJogador = new app.src.models.FraseDao(connection);
+
+                daoJogador.inserrir_jogador((err, result) => {
+                    if(err) { 
+                        throw err 
+                    } else {
+                        connection.end();
+                        return res.status(200);
                     }
                 })
             } catch (error) {
