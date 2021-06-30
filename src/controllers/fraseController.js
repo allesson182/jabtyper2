@@ -8,7 +8,7 @@ module.exports = (app) => {
                 const connection = app.config.database();
                 const daoFrase = new app.src.models.FraseDao(connection);
 
-                daoFrase.buscarFrases(1, (err, result) => {
+                daoFrase.buscarFrases((err, result) => {
                     if(err) { 
                         throw err 
                     } else {
