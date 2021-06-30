@@ -32,16 +32,16 @@
       </div>
       <div class="mensagem-dificuldade">
         <button class="botao-principal" id="select-dificult">Selecione uma dificuldade</button>
-        <a href="localhost:3000/placar.html"><button class="botao-principal" id="ver-placar">Ver Placar</button></a>
+        <!-- <a href="localhost:3000/placar.html"><button class="botao-principal" id="ver-placar">Ver Placar</button></a> -->
         
       </div>
-      <p class="lead">
-        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.
+      <p class="lead" id="lead">
+        Selecione a Dificuldade Para Iniciar o Jogo.
       </p>
       <div class="modal-content">
         <div class="dificuldade-container">
           <div class="form-check form-check-inline" id="form-easy">
-            <input class="form-check-input" type="radio" name="dificuldade" id="facil" value="1" checked >
+            <input class="form-check-input" type="radio" name="dificuldade" id="facil" value="1">
             <label class="form-check-label" for="facil">Fácil</label>
           </div>
           <div class="form-check form-check-inline" id="form-medium">
@@ -61,10 +61,10 @@
         <div class="row" id="linha">
   
           <div class="col-sm palavras">
-            <span id="tamanho-frase"> </span><h6> Palavras</h6>
+            <span id="tamanho-frase">0</span><h6> Palavras</h6>
           </div>
           <div class="col-sm tempo">
-            <span id="tempo">15</span> <h6> Segundos</h6>
+            <span id="tempo">0</span> <h6> Segundos</h6>
           </div>
   
         </div>
