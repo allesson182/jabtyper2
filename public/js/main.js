@@ -1,14 +1,31 @@
-
-
 async function exec() {
     const frases = await getFrases();
     console.log("frases",frases);
-    var frases_banco = json.parse(frases);
-    console.log(frases_banco);
-    return frases_banco;
-}
-exec();
+    
+}exec();
+let lista_de_frases = [];
 
+fetch("http://localhost:3000/frases").then(function (response){
+    return response.json();
+})
+.then(function (data){
+    console.log(data[0].frase);
+    for (const frase_display of data ){
+        lista_de_frases.push(frase_display.frase)
+        
+    }
+    console.log("lista!!!",lista_de_frases)
+});
+
+
+
+// (async () => {
+// const dao = require('./JogadorDao')
+// console.log("foi")
+// console.log('pesquisa no DB');
+// const frases = await dao.getFrases();
+// console.log(frases);
+// })();
 
 //para embararalhar as frases dentro do array
 function shuffle(o) {
@@ -53,7 +70,6 @@ dificuldade.on('click change', function(){
     $(".botao-principal").css("transform", "scale(0.9)");
     $(".botao-principal").css("outline", "0");
     $(".mensagem-dificuldade").css("display", "flex");
-    $(".mensagem-dificuldade").css("flex", "flex");
     $(".mensagem-dificuldade").css("justify-content", "center")
     $(".mensagem-dificuldade").css("align-items", "center")
     $(".mensagem-dificuldade").css("margin-top", "0")
@@ -150,5 +166,3 @@ $(".btn-restart").on("click", function(){
     //dificuldade.val() = ""
 
 });
-
-

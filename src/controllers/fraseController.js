@@ -1,3 +1,4 @@
+// const { dificuldadeValue } = require("../../public/js/main");
 
 module.exports = (app) => {
     const fraseController = {
