@@ -12,6 +12,7 @@ let lista_de_frases_medio = [];
 let lista_de_frases_avancado = [];
 var tempoJogo  = $("#tempo");
 var running = false;
+// botao_placar = $("#ver-placar");
 // ~~ ~ ~~ 
 
 // funçao para embaralhar os arrays
@@ -24,8 +25,8 @@ function shuffle(o) {
 function seleciona_dificuldade(dificuldadeV){
     if (dificuldadeV == "1"){
         //armazenar o tempo inicial 
-        tempoJogo.text(2);
-        tempoJogo.val(2)
+        tempoJogo.text(15);
+        tempoJogo.val(15)
         //embaralha o array especifico
         shuffle(lista_de_frases_facil);
         // console.log("tttt",lista_de_frases_facil[0]);
@@ -96,24 +97,19 @@ fetch("http://localhost:3000/frases").then(function (response){
 
 
 });
-
-fetch("http://localhost:3000/jogador").then(function (response){
+//funcao que vai ser chamada quando o tempo zerar
+function mostrarJogador(){
+    fetch("http://localhost:3000/jogador").then(function (response){
     return response.json();
 })
 .then(function (data){
     for (const jogador_display of data ){
         console.log(jogador_display)
-        //$(".table").append('<tr><td>'+jogador_display.nome+'</td><td>'+jogador_display.pontuacao+'</td><td>'+jogador_display.dificuldade+'</td></tr>');
+        $(".table").append('<tr><td>'+jogador_display.nome+'</td><td>'+jogador_display.pontuacao+'</td><td>'+jogador_display.dificuldade+'</td></tr>');
     }
     
 });
-// fetch("http://localhost:3000/jogadores").then(function (response){
-//     return response.json();
-// })
-// .then(function (data){
-    
-//     }
-// });
+}
 
 //abrir caixa de seleção de dificuldade
 function iniciaModal(modal){
@@ -194,11 +190,12 @@ function rodar(){
                 //palavrasDigitadas/tempoJogo.val() * 60
                 $(".table").append('<tr><td>'+nome+'</td><td>'+pontuacao+'</td></tr>');
                 $(".progress-bar").css("width", "100%");
-                
                 //TODO - send request
                 const jogadorBody = getJogador();
                 const response = await inserirJogador(jogadorBody);
                 console.log(response);
+                //exibir o jogador
+                mostrarJogador();
             } else{
                 running = true;
                 tempoRestante--;

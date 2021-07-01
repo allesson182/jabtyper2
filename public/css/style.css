@@ -3,10 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-a{
+/* a{
     text-decoration: none;
     color: #e2e2e2;
-}
+} */
 :root{
     --color-purple: #8257e5;
     --color-pink: #ff248a;
@@ -71,14 +71,14 @@ h1{
     user-select:none;
     margin-bottom: 1rem;
 }
-#ver-placar{
+/* #ver-placar{
     background-color: var(--color-pink);
     outline: none;
 }
 #ver-placar:hover{
     filter: brightness(0.7);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.397);
-}
+} */
 #select-dificult{
     background-color: var(--color-purple);
     outline: none;
@@ -352,6 +352,9 @@ main{
     text-align: center;
     
 }
+/* .placar{
+    display: none;
+} */
 .table {
     width: 100%;
     margin-bottom: 1rem;

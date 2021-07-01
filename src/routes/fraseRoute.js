@@ -4,4 +4,5 @@ module.exports = (app) => {
     app.get('/frases', fraseController.getAll);
     app.post('/inserir', fraseController.inserirJogador);
     app.get('/jogador', fraseController.getAllJogadores);
+    
 };
