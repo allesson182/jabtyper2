@@ -42,7 +42,7 @@ h1{
     font-family: 'Poppins', sans-serif;
     font-size: 1.0rem;
     text-align: center;
-    display: block;
+    display: none;
 }
 .nome-jogador{
     justify-content: center;
@@ -229,7 +229,7 @@ input[type='radio']:checked:after {
     cursor: pointer;
 }
 main{
-    display: block;
+    display: none;
 }
 .conjunto{
     width: 100%;

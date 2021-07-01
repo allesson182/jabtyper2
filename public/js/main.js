@@ -1,22 +1,31 @@
-var dificuldadeValue = $('input[type="radio"]:checked').val();
+// ^^^  variaveis ^^^
+// var dificuldadeValue = $('input[type="radio"]:checked').val();
+$("#nomeJogador").val("");
+// elemento da caixa de texto
+var campo = $("#campo-digitacao");
+campo.val("");
 var botaoSelect = $("#select-dificult");
 var modal = $(".modal-content");
 var dificuldade = $('input[type="radio"]')
 let lista_de_frases_facil = [];
 let lista_de_frases_medio = [];
 let lista_de_frases_avancado = [];
+var tempoJogo  = $("#tempo");
+var running = false;
+// ~~ ~ ~~ 
 
+// funçao para embaralhar os arrays
 function shuffle(o) {
     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     return o;
 }
-console.log(dificuldadeValue)
+
 
 function seleciona_dificuldade(dificuldadeV){
     if (dificuldadeV == "1"){
         //armazenar o tempo inicial 
-        tempoJogo.text(15);
-        tempoJogo.val(15)
+        tempoJogo.text(2);
+        tempoJogo.val(2)
         //embaralha o array especifico
         shuffle(lista_de_frases_facil);
         // console.log("tttt",lista_de_frases_facil[0]);
@@ -59,6 +68,7 @@ function seleciona_dificuldade(dificuldadeV){
     }
 }
 
+/// buscando frases do backend ///
 fetch("http://localhost:3000/frases").then(function (response){
     return response.json();
 })
@@ -87,84 +97,78 @@ fetch("http://localhost:3000/frases").then(function (response){
 
 });
 
+fetch("http://localhost:3000/jogador").then(function (response){
+    return response.json();
+})
+.then(function (data){
+    for (const jogador_display of data ){
+        console.log(jogador_display)
+        //$(".table").append('<tr><td>'+jogador_display.nome+'</td><td>'+jogador_display.pontuacao+'</td><td>'+jogador_display.dificuldade+'</td></tr>');
+    }
+    
+});
+// fetch("http://localhost:3000/jogadores").then(function (response){
+//     return response.json();
+// })
+// .then(function (data){
+    
+//     }
+// });
 
-   
-    // pegando o elemento que imprime o tempo
-    
-    
-   
-    
+//abrir caixa de seleção de dificuldade
 function iniciaModal(modal){
     var modalAbrir = $(modal)
     modalAbrir.addClass('mostrar');
-    //zerar o value
-    //
-    //sempre resetar os valore
 }
 //fechar
 function removerModal(){
     modal.removeClass('mostrar');
 }
-// elemento da caixa de texto
-var campo = $("#campo-digitacao");
 
+//ao clicar em uma dificuldade
 botaoSelect.on('click', () => iniciaModal(modal));
+
 modal.on('click', removerModal)
+
 dificuldade.on('click change', function(){
     var dificuldade_atualizada = $('input[type="radio"]:checked').val()
+    
     // location.reload();
-    console.log(dificuldadeValue);
+    console.log(dificuldade_atualizada);
+    var nomeJogador = $("#nomeJogador").val();
+    console.log(nomeJogador);
     seleciona_dificuldade(dificuldade_atualizada);
+    // aparecer a parte principal do jogo
+    $(".lead").css("display", "block");
+    $("#principal").css("display", "block");
+    $(".nome-jogador").css("display", "none");
+    $(".botao-principal").css("transform", "scale(0.9)");
+    $(".botao-principal").css("outline", "0");
+    $(".mensagem-dificuldade").css("flex-direction", "row");
+    $(".mensagem-dificuldade").css("display", "flex");
+    $(".mensagem-dificuldade").css("justify-content", "center")
+    $(".mensagem-dificuldade").css("align-items", "center")
+    $(".mensagem-dificuldade").css("margin-top", "0")
+    
     campo.attr("disabled", false);
     campo.addClass("active")
     
     
-    // $(".lead").css("display", "block");
-    // $("#principal").css("display", "block");
-    // $(".nome-jogador").css("display", "none");
-    // $(".botao-principal").css("transform", "scale(0.9)");
-    // $(".botao-principal").css("outline", "0");
-    // $(".mensagem-dificuldade").css("display", "flex");
-    // $(".mensagem-dificuldade").css("justify-content", "center")
-    // $(".mensagem-dificuldade").css("align-items", "center")
-    // $(".mensagem-dificuldade").css("margin-top", "0")
-    
-    
-    
     
 });
-
-var tempoJogo  = $("#tempo");
-
-
-
-
-
-
-
+/**
+ *        posso subir essa variavel?
+ */
 
 //monitora o clique do campo de digitação
-
 campo.on("input", function () {
     comparar_palavras()
-    // //pega o que tem dentro do campo de texto
-    // var frase = campo.val();
-    // //conta a quantidade de caracteres da frase digitada
-    // var nCaracteresDigitados = frase.length;
-    // //mostra a quantidade na tela
-    // $("#caracteres-digitados").text(nCaracteresDigitados);
-    
-    // //quebra a frase em palavras e conta as palavras
-    // var nPalavrasDigitadas = frase.split(" ").length;
-    // //exibe a quantidade de palavras na tela
-    // $("#palavras-digitadas").text(nPalavrasDigitadas);
-    // //imprimir em cima também
 });
 
-//cronometrando o tempo
-//quando clicar apenas uma vez na caixa
-var running = false;
+let palavras_sistema = $("#lead").text().split(" ");
 rodar();
+//funçao que inicia o tempo de digitaçao quando o usuario digita 
+//algo na caixa de texto
 function rodar(){
     campo.on("focus", function(){
         campo.addClass("active")
@@ -173,7 +177,7 @@ function rodar(){
             return;
         }
         //criando uma variavel para o intervalo
-        var cronometro = setInterval(function(){
+        var cronometro = setInterval(async function(){
             var tempoRestante = tempoJogo.text();
             //condicional para desabilitar a caixa de texto
             if (tempoRestante <= 0) {
@@ -184,27 +188,33 @@ function rodar(){
                 //limpando o console
                 clearInterval(cronometro);
                 nome = $(".form-control").val()
-                let palavras_sistema = $("#lead").text().split(" ");
+                // let palavras_sistema = $("#lead").text().split(" ");
                 palavrasDigitadas = $("#palavras-digitadas").text()
                 pontuacao = `${palavrasDigitadas}/${palavras_sistema.length}`; 
                 //palavrasDigitadas/tempoJogo.val() * 60
                 $(".table").append('<tr><td>'+nome+'</td><td>'+pontuacao+'</td></tr>');
                 $(".progress-bar").css("width", "100%");
+                
+                //TODO - send request
+                const jogadorBody = getJogador();
+                const response = await inserirJogador(jogadorBody);
+                console.log(response);
             } else{
                 running = true;
                 tempoRestante--;
                 tempoJogo.text(tempoRestante);
                 porcentagem = (tempoRestante / tempoJogo.val() * 100) + "%";
-                console.log(porcentagem)
+                // console.log(porcentagem)
                 $(".progress-bar").css("width", porcentagem);
                 //decrementando o tempo
-                
-                
             }
             
         }, 1000);
     });
 }
+
+
+/// verificação de acerto de palavras
 function comparar_palavras(){
     let palavras_usuario = campo.val();
     $("#caracteres-digitados").text(palavras_usuario.length);
@@ -217,46 +227,29 @@ function comparar_palavras(){
 
     $("#palavras-digitadas").text(palavras_certas);
 
-}
+};
+
 //botao reset
-$(".btn-restart").on("click", function(){
-    //desbloquear a caixa de texto
+function resetar(){
+    //preenche a barra de progresso novamente
     $(".progress-bar").css("width", "100%");
+    //desbloquear a caixa de texto
     campo.attr("disabled", false);
     //limpa a caixa
     campo.val("");
     $("#caracteres-digitados").text("0");
     $("#palavras-digitadas").text("0");
     $("#tempo").text(tempoJogo.val());
-    
-    //dificuldade.val() = ""
-   
-});
+};
 
+//ao clicar no botao de reset, volta as configuraçoes do inicio.
+$(".btn-restart").on("click", resetar);
     
-    // async function exec() {
-    //     const frases = await getFrases();
-    //     console.log("frases",frases);
-        
-    // }exec();
-    // (async () => {
-    // const dao = require('./JogadorDao')
-    // console.log("foi")
-    // console.log('pesquisa no DB');
-    // const frases = await dao.getFrases();
-    // console.log(frases);
-    // })();
-    
-    //para embararalhar as frases dentro do array
-     // minhasFrases = [
-    //     "Há duas formas de construir um projeto de software: Uma maneira de fazer isso deve ser tão simples que, obviamente, não deixem deficiências, e a outra forma é a de torná-lo tão complicado que não percebam as evidentes deficiências. O primeiro método é muito mais difícil" ,
-    //     "Faça como um programador. Quando tudo está errado e confuso, apague tudo e recomece do zero.",
-    //     "Ser desenvolvedor é uma viagem onde a próxima parada é a solução de um problema.",
-    //     "Eu sempre quis que o meu computador fosse tão fácil de usar como o meu telefone, o meu desejo foi realizado pois eu já não consigo descobrir como usar o meu telefone.",
-    //     "Aproveite enquanto vive como programador no planeta, pois a tecnologia avança de uma forma gradativamente nos transformando em um ser burro.",
-    //     "Os primeiros 90% do código representam os primeiros 10% do tempo de desenvolvimento. Os 10% restantes do código é para mostrar aos outros os 90% do tempo de desenvolvimento. ",
-    //     "Só existem dois tipos de pessoas no mundo: as que entendem código binário e as que não entendem."
-    // ]
-    // chamando a função
-pontuacao = `${palavrasDigitadas}/${palavras_sistema.length}`; 
-module.exports(pontuacao);    
+function getJogador(){
+    var jogador = {
+        nome: $("#nomeJogador").val(),
+        dificuldade: $('input[type="radio"]:checked').val(),
+        pontuacao: `${$("#palavras-digitadas").text()}/${palavras_sistema.length}`
+    };
+    return jogador;
+}
