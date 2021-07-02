@@ -11,6 +11,7 @@
     --color-purple: #8257e5;
     --color-pink: #ff248a;
     --color-green: #11ff25;
+    --color-body: #161515;
 
 }
 body {
@@ -19,7 +20,7 @@ body {
     font-weight: 700;
     line-height: 1.5;
     color: #ffffff;
-    background-color: #161515;
+    background-color: var(--color-body);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
 }
@@ -37,6 +38,10 @@ h1{
     font-size: 3.5rem;
     text-align: center;
     line-height: 1.5;
+}
+#ponto-zero{
+    color: var(--color-green);
+    font-size: 1rem;
 }
 .lead{
     font-family: 'Poppins', sans-serif;
@@ -102,7 +107,7 @@ h1{
 }
 
 .dificuldade-container{
-    background-color: #161515;
+    background-color: var(--color-body);
     height: 7rem;
     max-height: 70%;
     width: 30rem;
@@ -352,9 +357,9 @@ main{
     text-align: center;
     
 }
-/* .placar{
+.placar{
     display: none;
-} */
+}
 .table {
     width: 100%;
     margin-bottom: 1rem;

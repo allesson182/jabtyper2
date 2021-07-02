@@ -11,6 +11,10 @@ FraseDao.prototype.InserirJogador = function(jogador, callback){
 FraseDao.prototype.buscarJogadores = function(callback){
 	this._connection.query('select * from jogadores', callback);
 }
+FraseDao.prototype.buscarJogadorespordificuldade = function(id,callback){
+	this._connection.query('sele* from jogadores where id = ?'[1, callback])
+
+}
 
 
 
